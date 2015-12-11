@@ -1,0 +1,1 @@
+SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="04b4", ATTRS{idProduct}=="8613", MODE="666", RUN+="/etc/fx2/load $env{DEVNAME}"

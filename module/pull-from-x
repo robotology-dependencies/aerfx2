@@ -1,0 +1,4 @@
+#!/bin/bash
+
+wget -O aerfx2.c http://x.ethz.ch/iit/aerfx2/aerfx2.c
+

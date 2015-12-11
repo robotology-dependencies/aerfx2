@@ -1,0 +1,38 @@
+#!/bin/bash
+
+exec 1>>/var/log/fx2.log
+exec 2>>/var/log/fx2.log
+
+FIRMWARE="/etc/fx2/fx2aex.ihx"
+
+# check path
+echo "$1" | grep -q '^/dev/bus/'
+if [ "$?" != "0" ] ; then
+    #echo "Ignoring: '$1'"
+    exit 0
+fi
+
+echo 
+date
+echo "Trying to load: '$1', waiting for device:"
+
+for i in `seq 100` ; do
+    if [ -e "$1" ] ; then
+        break
+    else
+        sleep 0.1
+    fi
+done
+
+if ! [ -e "$1" ] ; then
+    echo "Device did not apper. Aborting!"
+    exit 1
+fi
+
+echo "Device exists: $1"
+echo "Waiting 1s before invoking fxload..."
+sleep 1
+
+echo -n "Firmware MD5: " ; md5sum "$FIRMWARE"
+/sbin/fxload -v -t fx2 -I "$FIRMWARE" -D "$1"
+
